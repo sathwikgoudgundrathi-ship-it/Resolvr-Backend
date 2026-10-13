@@ -43,7 +43,7 @@ public class ComplaintController {
     @PostMapping @ResponseStatus(HttpStatus.CREATED)
     public Complaint create(@Valid @RequestBody CreateComplaintRequest req, HttpSession session) {
         User reporter = currentUser(session);
-        requireRole(reporter, Role.PUBLIC);
+        
         long now = System.currentTimeMillis();
         String priority = validPriority(req.getPriority());
         Complaint c = new Complaint();
@@ -56,11 +56,11 @@ public class ComplaintController {
         c.setConfidence(req.getConfidence() == null ? 0.75 : Math.max(0.0, Math.min(1.0, req.getConfidence())));
         c.setStatus("Assigned"); c.setCreatedAt(now); c.setUpdatedAt(now);
         c.setSlaHours(switch (priority) { case "Critical" -> 4; case "High" -> 24; case "Low" -> 168; default -> 72; });
-        c.setEscalationLevel(0); c.setAssignee("Front Office");
+        c.setEscalationLevel(0); c.setAssignee(reporter.getRole() == Role.WORKER ? reporter.getName() : "Front Office");
         c.setReporter(reporter.getName()); c.setReporterEmail(reporter.getEmail()); c.setImage(req.getImage());
         c.addTimelineEvent(now, "Complaint submitted", null);
         c.addTimelineEvent(now + 1, "AI routed to " + c.getDepartment(), c.getCategory() + " · " + priority);
-        c.addTimelineEvent(now + 2, "Assigned to Front Office", null);
+        c.addTimelineEvent(now + 2, "Assigned to " + c.getAssignee(), null);
         return complaints.save(c);
     }
 
