@@ -1,0 +1,11 @@
+target/
+.output/
+.wrangler/
+node_modules/
+.env
+.env.*
+!.env.example
+.DS_Store
+.idea/
+.vscode/
+*.log
