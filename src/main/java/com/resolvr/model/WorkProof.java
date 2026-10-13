@@ -11,8 +11,7 @@ public class WorkProof {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
-    @Column(name = "image_url")
+    @Column(name = "image_url", columnDefinition = "TEXT")
     private String image;
 
     @Column(nullable = false, columnDefinition = "TEXT")

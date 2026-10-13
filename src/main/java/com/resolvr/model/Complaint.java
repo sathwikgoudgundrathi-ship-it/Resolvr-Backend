@@ -58,8 +58,7 @@ public class Complaint {
     @Column(name = "reporter_email", nullable = false, length = 150)
     private String reporterEmail;
 
-    @Lob
-    @Column(name = "image_url")
+    @Column(name = "image_url", columnDefinition = "TEXT")
     private String image;
 
     private Integer rating;
