@@ -4,8 +4,8 @@ services:
     runtime: docker
     plan: free
     region: oregon
-    dockerContext: ./backend
-    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /api/health
     envVars:
       - key: SPRING_PROFILES_ACTIVE
